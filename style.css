@@ -1,67 +1,32 @@
-body{
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    font-family: Arial, sans-serif;
 }
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+h1 {
+    margin-bottom: 20px;
 }
-.gamecontainer{
-    height: 200px;
-    width: 200px;
-    display: flex;
-    align-self: start;
-    justify-content: center;
-    flex-wrap: wrap;
-    border: none;
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px;
 }
-.btn{
-    background: #fff;
-    height: 100px;
+.cell {
     width: 100px;
-    border: 2px solid black;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    border: 2px solid #000;
+    cursor: pointer;
 }
-.btn{
-    .btn1{
-        border-top: 0px;
-        border-left: 0;
-    }
-    .btn2{
-        border-top: 0px;
-    }
-    .btn3{
-        border-top: 0px;
-        border-right: 0;
-    }
-    .btn4{
-        border-left: 0px;
-    }
-    .btn6{
-        border-right: 0;
-    }
-    .btn7{
-        border-left: 0px;
-        border-bottom: 0;
-    }
-    .btn8{
-        border-bottom: 0;
-    }
-    .btn9{
-        border-bottom: 0;
-        border-right: 0;
-    }
-    .resetbtn{
-        height: 50px;
-        width: 150px;
-        background: #a71818;
-        border-radius: 20px;
-        color: #fff;
-        margin-top: 20px;
-        font-size: 20px;
-    }
+.reset-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
 }
