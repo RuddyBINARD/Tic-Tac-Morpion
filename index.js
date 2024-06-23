@@ -1,61 +1,70 @@
-let turntext=document.getElementById
-('turntext');
-let btns=document.querySelectorAll("btn");
-let resetbtn=document.getElementById
-('resetbtn')
+const board = document.querySelector('.board');
+const cells = document.querySelectorAll('.cell');
+const statusText = document.querySelector('.status');
+const resetBtn = document.querySelector('.reset-btn');
+let currentPlayer = 'O';
+let boardState = ['', '', '', '', '', '', '', '', ''];
+let gameActive = true;
 
-let turn=true;
-btns.forEach((button)=>{
-    //reset button
+const winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
 
-    button.addEventListener("click",()=>{
-        resetbtn.addEventListener
-        ('click',()=>{
-            button.innerHTML=""
-        })
-        function winfun() {
-            button.innerHTML=""
-        }
-        if(button.innerHTML===""){
-            if(turn===true){
-                button.innerHTML="0"
-                checkwinner();
-                turn=false;
-                turntext.innerText=
-                ("turn for x")
-            }
-        }
-    })
-})
-//win condition
+const handleCellClick = (e) => {
+    const clickedCell = e.target;
+    const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
 
-let winconditions=[
-    [0,1,2]
-    [3,4,5]
-    [6,7,8]
-    [0,4,8]
-    [2,4,6]
-    [0,3,6]
-    [1,4,7]
-    [2,5,8]
-]
-function checkwinner(){
-    for(let win of condition){
-        pos1val=btns[win[0]].innerText
-        pos2val=btns[win[1]].innerText
-        pos3val=btns[win[2]].innerText
-        if( pos1val != "" &&pos2val !=
-            "" &&pos3val != ""){
-                if(pos1val===pos2val &&
-                    pos1val===pos3val
-                ){
-                    alert(pos1val + "   " + "win the game")
-                    btns.forEach((box)=>{
-                        box.innerHTML="";
-                    }
-                    )
-                }
-            }
+    if (boardState[clickedCellIndex] !== '' || !gameActive) {
+        return;
     }
-}
 
+    boardState[clickedCellIndex] = currentPlayer;
+    clickedCell.innerText = currentPlayer;
+    checkWinner();
+    currentPlayer = currentPlayer === 'O' ? 'X' : 'O';
+    statusText.innerText = `Turn for ${currentPlayer}`;
+};
+
+const checkWinner = () => {
+    let roundWon = false;
+    for (let i = 0; i < winningConditions.length; i++) {
+        const [a, b, c] = winningConditions[i];
+        if (boardState[a] === '' || boardState[b] === '' || boardState[c] === '') {
+            continue;
+        }
+        if (boardState[a] === boardState[b] && boardState[b] === boardState[c]) {
+            roundWon = true;
+            break;
+        }
+    }
+
+    if (roundWon) {
+        statusText.innerText = `${currentPlayer} wins!`;
+        gameActive = false;
+        return;
+    }
+
+    if (!boardState.includes('')) {
+        statusText.innerText = 'Draw!';
+        gameActive = false;
+        return;
+    }
+};
+
+const handleReset = () => {
+    boardState = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    cells.forEach(cell => cell.innerText = '');
+    currentPlayer = 'O';
+    statusText.innerText = `Turn for ${currentPlayer}`;
+};
+
+cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+resetBtn.addEventListener('click', handleReset);
