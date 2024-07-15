@@ -1,1 +1,1 @@
-# Tic-Tac-Morpion
+# Jeu du Morpion
